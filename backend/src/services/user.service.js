@@ -8,24 +8,74 @@ class UserService {
 
   // Signup
   /**
-   * First when request comes create an 6 digit OTP
-   * Than send this verification email to the user email that user had entered
-   * than set verification time to now time + 10 min
-   * than create user and set isVerified false
-   * We don't have to return any token in this
+   * Creates a new user with a 6-digit OTP, sends a verification email,
+   * and sets the verification time to now + 10 minutes.
    */
   async signup(data) {
     try {
-      /**
-       * Here in data we have to pass name, email, password
-       * otp, isVerified and otpValidTill will automatically created inside db
-       */
       const user = await this.userRepository.create(data);
+      user.genOTP(); // Generate OTP after user creation
+      await user.save();
       await sendMail(user.email, user.otp);
-      return user;
+      return "Created usere successfully";
     } catch (error) {
-      console.log("Some problem in creating user inside user service");
-      throw error;
+      console.error("Error creating user:", error);
+      throw new Error("Failed to create user. Please try again.");
+    }
+  }
+
+  async verifyOTP(data) {
+    try {
+      const user = await this.userRepository.getByEmail(data.email);
+      const nowTime = new Date();
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // Check if the OTP is still valid
+      if (nowTime > user.otpValidTill) {
+        console.error("OTP expired");
+        throw new Error("OTP has expired. Please request a new one.");
+      }
+
+      // Check if the provided OTP matches
+      if (data.otp !== user.otp) {
+        console.error("Incorrect OTP");
+        throw new Error("The OTP entered is incorrect. Please try again.");
+      }
+
+      // Mark user as verified and save
+      user.isVerified = true;
+      await user.save();
+
+      const token = user.genJWT();
+      return {
+        message: "OTP verification successfully",
+        jwtToken: token,
+      };
+    } catch (error) {
+      console.error("Error in OTP verification:", error);
+      throw new Error("Failed to verify OTP. Please try again.");
+    }
+  }
+
+  async createEmailVerifyOTP(data) {
+    try {
+      const user = await this.userRepository.getByEmail(data.email);
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      user.genOTP(); // Generate a new OTP
+      await user.save();
+      await sendMail(user.email, user.otp); // Send email after generating a new OTP
+
+      return "New otp created uccessfully";
+    } catch (error) {
+      console.error("Error in generating new OTP:", error);
+      throw new Error("Failed to generate new OTP. Please try again.");
     }
   }
 }

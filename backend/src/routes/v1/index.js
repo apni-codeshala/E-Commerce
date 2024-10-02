@@ -1,5 +1,9 @@
 import express from "express";
-import { signup } from "../../controllers/user.controller.js";
+import {
+  signup,
+  otpVerification,
+  generateNewOTP,
+} from "../../controllers/user.controller.js";
 
 const router = express.Router();
 
@@ -15,5 +19,7 @@ router.get("/", (req, res) => {
 
 // User routes
 router.post("/signup", signup);
+router.post("/otp-verification", otpVerification);
+router.post("/gen-new-otp", generateNewOTP);
 
 export default router;

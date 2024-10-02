@@ -1,60 +1,49 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"; // Make sure to import jwt
+import dotenv from "dotenv";
+
+dotenv.config();
+const SECRET_KEY = process.env.JWT_SECRET;
 
 const UserSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      require: true,
+      required: true,
     },
     email: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
     },
     password: {
       type: String,
-      require: true,
+      required: true,
     },
     otp: {
       type: String,
       length: 6,
-      default: 171019,
+      default: "171019",
     },
     isVerified: {
       type: Boolean,
-      require: true,
+      required: true,
       default: false,
     },
     otpValidTill: {
       type: Date,
-      require: true,
     },
   },
   { timestamps: true },
 );
 
 UserSchema.pre("save", function (next) {
-  // user password encryption
-  const user = this;
-  const SALT = bcrypt.genSaltSync(9);
-  const encryptedPassword = bcrypt.hashSync(user.password, SALT);
-  user.password = encryptedPassword;
-
-  // user otp generation
-  let digits = "0123456789";
-  let OTP = "";
-  let len = digits.length;
-  for (let i = 0; i < 6; i++) {
-    OTP += digits[Math.floor(Math.random() * len)];
+  // Encrypt user password
+  if (this.isModified("password")) {
+    const SALT = bcrypt.genSaltSync(9);
+    this.password = bcrypt.hashSync(this.password, SALT);
   }
-  user.otp = OTP;
-
-  // otpValidTill
-  const d = new Date();
-  d.setMinutes(d.getMinutes() + 10);
-  user.otpValidTill = d;
-
   next();
 });
 
@@ -62,5 +51,29 @@ UserSchema.methods.comparePassword = function compare(password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-const User = mongoose.model("user", UserSchema);
+UserSchema.methods.genOTP = function generateNewOTP() {
+  const user = this;
+
+  // Generate a 6-digit OTP
+  const digits = "0123456789";
+  let OTP = "";
+  for (let i = 0; i < 6; i++) {
+    OTP += digits[Math.floor(Math.random() * digits.length)];
+  }
+  user.otp = OTP;
+
+  // OTP valid till
+  const now = new Date();
+  user.otpValidTill = new Date(now.getTime() + 10 * 60000);
+
+  return user;
+};
+
+UserSchema.methods.genJWT = function generate() {
+  return jwt.sign({ id: this._id, email: this.email }, SECRET_KEY, {
+    expiresIn: "1d",
+  });
+};
+
+const User = mongoose.model("User", UserSchema);
 export default User;

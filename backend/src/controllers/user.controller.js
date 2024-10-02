@@ -25,3 +25,48 @@ export const signup = async (req, res) => {
     });
   }
 };
+
+export const otpVerification = async (req, res) => {
+  try {
+    const response = await userService.verifyOTP({
+      email: req.body.email,
+      otp: req.body.otp,
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Successfully verified your email",
+      data: response,
+      err: {},
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({
+      success: false,
+      message: "Email not verified",
+      data: {},
+      err: error,
+    });
+  }
+};
+
+export const generateNewOTP = async (req, res) => {
+  try {
+    const response = await userService.createEmailVerifyOTP({
+      email: req.body.email,
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Successfully created new OTP",
+      data: response,
+      err: {},
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({
+      success: false,
+      message: "Not able to create new OTP",
+      data: {},
+      err: error,
+    });
+  }
+};
