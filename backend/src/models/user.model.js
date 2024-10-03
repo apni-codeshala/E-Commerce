@@ -21,6 +21,12 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      require: true,
+      enum: ["admin", "seller", "user"],
+      default: "user",
+    },
     otp: {
       type: String,
       length: 6,
@@ -70,9 +76,13 @@ UserSchema.methods.genOTP = function generateNewOTP() {
 };
 
 UserSchema.methods.genJWT = function generate() {
-  return jwt.sign({ id: this._id, email: this.email }, SECRET_KEY, {
-    expiresIn: "1d",
-  });
+  return jwt.sign(
+    { id: this._id, email: this.email, role: this.role },
+    SECRET_KEY,
+    {
+      expiresIn: "1d",
+    },
+  );
 };
 
 const User = mongoose.model("User", UserSchema);

@@ -78,6 +78,27 @@ class UserService {
       throw new Error("Failed to generate new OTP. Please try again.");
     }
   }
+
+  async signin(data) {
+    try {
+      // Get user info from the databse
+      const user = await this.userRepository.getByEmail(data.email);
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      if (!user.comparePassword(data.password)) {
+        throw new Error("Incorrect Password");
+      }
+
+      const token = user.genJWT();
+      return token;
+    } catch (error) {
+      console.log("Something went wrong in signin", error);
+      throw new Error("Something went wrong in signin");
+    }
+  }
 }
 
 export default UserService;

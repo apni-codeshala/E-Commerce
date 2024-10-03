@@ -1,8 +1,12 @@
 import express from "express";
+
+import isAuthenticated from "../../middlewares/auth.validator.js";
 import {
   signup,
   otpVerification,
   generateNewOTP,
+  signin,
+  isVerified,
 } from "../../controllers/user.controller.js";
 
 const router = express.Router();
@@ -19,7 +23,9 @@ router.get("/", (req, res) => {
 
 // User routes
 router.post("/signup", signup);
-router.post("/otp-verification", otpVerification);
+router.post("/otp-verification", otpVerification); // this will return token with him
 router.post("/gen-new-otp", generateNewOTP);
+router.post("/signin", signin);
+router.get("/isverified", isAuthenticated, isVerified);
 
 export default router;

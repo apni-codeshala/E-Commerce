@@ -70,3 +70,56 @@ export const generateNewOTP = async (req, res) => {
     });
   }
 };
+
+export const signin = async (req, res) => {
+  try {
+    const response = await userService.signin({
+      email: req.body.email,
+      password: req.body.password,
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Successfully signin user",
+      data: response,
+      err: {},
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong in signin the user",
+      data: {},
+      err: error,
+    });
+  }
+};
+
+export const isVerified = (req, res) => {
+  try {
+    if (!req.user || !req.email) {
+      return res.status(500).json({
+        success: false,
+        message: "Login again, to verify your self",
+        data: {},
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "User is verified",
+      data: {
+        email: req.email,
+        role: req.role,
+      },
+      err: {},
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      success: true,
+      message: "User not verified",
+      data: {},
+      err: error,
+    });
+  }
+};
