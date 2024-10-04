@@ -88,12 +88,21 @@ class UserService {
         throw new Error("User not found");
       }
 
+      if (!user.isVerified) {
+        throw new Error("First verify your email");
+      }
+
       if (!user.comparePassword(data.password)) {
         throw new Error("Incorrect Password");
       }
 
       const token = user.genJWT();
-      return token;
+      return {
+        token,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      };
     } catch (error) {
       console.log("Something went wrong in signin", error);
       throw new Error("Something went wrong in signin");

@@ -4,6 +4,7 @@ const userService = new UserService();
 
 export const signup = async (req, res) => {
   try {
+    console.log("Here in backend controller", req.body);
     const response = await userService.signup({
       name: req.body.name,
       email: req.body.email,
@@ -84,12 +85,11 @@ export const signin = async (req, res) => {
       err: {},
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Something went wrong in signin the user",
       data: {},
-      err: error,
+      err: error.message,
     });
   }
 };
