@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
 
 import OTPInputComponent from "./OTPInputComponent";
+import axiosInstance from "../config/axiosInstance";
 
 const OTPInput = () => {
   const navigate = useNavigate();
 
-  const handleComplete = (otp) => {
-    console.log("OTP Entered:", otp);
-    navigate("/");
+  const handleComplete = async (otp) => {
+    const response = await axiosInstance.post();
+    navigate("/home");
   };
 
   return (
