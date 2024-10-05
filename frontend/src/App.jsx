@@ -5,6 +5,9 @@ import HomePage from "./pages/HomePage";
 import Verify from "./components/Verify";
 import OTPInput from "./components/OTPInput";
 import Login from "./components/Login";
+import Denied from "./pages/Denied";
+import RequireAuth from "./components/Authorize";
+import Notfound from "./pages/Notfound";
 
 function App() {
   return (
@@ -19,7 +22,11 @@ function App() {
         path="/otp-verification"
         element={<AuthenticationPage Page={OTPInput} />}
       />
-      <Route path="/home" element={<HomePage />} />
+      <Route element={<RequireAuth allowedRoles={["user"]} />}>
+        <Route path="/home" element={<HomePage />} />
+      </Route>
+      <Route path="/denied" element={<Denied />} />
+      <Route path="*" element={<Notfound />} />
       {/* <Route path='/about' element={<Aboutus />} />
       <Route path='/signup' element={<Signup />} />
       <Route path='/signin' element={<Signin />} />
