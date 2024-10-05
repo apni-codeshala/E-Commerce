@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import OTPInputComponent from "./OTPInputComponent";
-import axiosInstance from "../config/axiosInstance";
+import axiosInstance from "../../config/axiosInstance";
 
 const OTPInput = () => {
   const navigate = useNavigate();

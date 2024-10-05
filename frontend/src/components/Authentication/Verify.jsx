@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-import axiosInstance from "../config/axiosInstance";
+import axiosInstance from "../../config/axiosInstance";
 
 const Verify = () => {
   const navigate = useNavigate();

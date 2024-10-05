@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
-import { addUserWithToken } from "../redux/slices/authSlices";
-import { checkIsDataValid } from "../helpers/validate";
-import axiosInstance from "../config/axiosInstance";
+import { addUserWithToken } from "../../redux/slices/authSlices";
+import { checkIsDataValid } from "../../helpers/validate";
+import axiosInstance from "../../config/axiosInstance";
 
 const Login = () => {
   const dispatch = useDispatch();

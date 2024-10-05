@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
-import { addUser } from "../redux/slices/authSlices";
-import { checkIsDataValid } from "../helpers/validate";
-import axiosInstance from "../config/axiosInstance";
+import { addUser } from "../../redux/slices/authSlices";
+import { checkIsDataValid } from "../../helpers/validate";
+import axiosInstance from "../../config/axiosInstance";
 
 const Register = () => {
   const dispatch = useDispatch();

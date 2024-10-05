@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import AuthenticationPage from "./pages/AuthenticationPage";
-import Register from "./components/Register";
-import HomePage from "./pages/HomePage";
-import Verify from "./components/Verify";
-import OTPInput from "./components/OTPInput";
-import Login from "./components/Login";
+import Register from "./components/Authentication/Register";
+import Home from "./pages/Home";
+import Verify from "./components/Authentication/Verify";
+import OTPInput from "./components/Authentication/OTPInput";
+import Login from "./components/Authentication/Login";
 import Denied from "./pages/Denied";
-import RequireAuth from "./components/Authorize";
+import RequireAuth from "./components/Authentication/Authorize";
 import Notfound from "./pages/Notfound";
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
         element={<AuthenticationPage Page={OTPInput} />}
       />
       <Route element={<RequireAuth allowedRoles={["user"]} />}>
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/home" element={<Home />} />
       </Route>
       <Route path="/denied" element={<Denied />} />
       <Route path="*" element={<Notfound />} />
