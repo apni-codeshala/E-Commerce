@@ -1,10 +1,25 @@
 import { Route, Routes } from "react-router-dom";
 import AuthenticationPage from "./pages/AuthenticationPage";
+import Register from "./components/Register";
+import HomePage from "./pages/HomePage";
+import Verify from "./components/Verify";
+import OTPInput from "./components/OTPInput";
+import Login from "./components/Login";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<AuthenticationPage />} />
+      <Route path="/" element={<Verify />} />
+      <Route
+        path="/register"
+        element={<AuthenticationPage Page={Register} />}
+      />
+      <Route path="/login" element={<AuthenticationPage Page={Login} />} />
+      <Route
+        path="/otp-verification"
+        element={<AuthenticationPage Page={OTPInput} />}
+      />
+      <Route path="/home" element={<HomePage />} />
       {/* <Route path='/about' element={<Aboutus />} />
       <Route path='/signup' element={<Signup />} />
       <Route path='/signin' element={<Signin />} />

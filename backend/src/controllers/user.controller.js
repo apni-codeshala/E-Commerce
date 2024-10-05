@@ -4,7 +4,6 @@ const userService = new UserService();
 
 export const signup = async (req, res) => {
   try {
-    console.log("Here in backend controller", req.body);
     const response = await userService.signup({
       name: req.body.name,
       email: req.body.email,

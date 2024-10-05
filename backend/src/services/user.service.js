@@ -17,7 +17,11 @@ class UserService {
       user.genOTP(); // Generate OTP after user creation
       await user.save();
       await sendMail(user.email, user.otp);
-      return "Created usere successfully";
+      return {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      };
     } catch (error) {
       console.error("Error creating user:", error);
       throw new Error("Failed to create user. Please try again.");

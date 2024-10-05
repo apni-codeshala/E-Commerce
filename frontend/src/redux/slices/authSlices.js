@@ -5,15 +5,18 @@ import {
   removeUserFromLocalStorage,
 } from "../../helpers/setUserLocalStorage";
 
+const initialState = {
+  name: localStorage.getItem("name") || "",
+  email: localStorage.getItem("email") || "",
+  role: localStorage.getItem("role") || "",
+  isLoggedIn: localStorage.getItem("isLoggedIn") || false,
+  token: localStorage.getItem("token") || "",
+};
+
 const authSlice = createSlice({
   name: "auth",
 
-  initialState: {
-    name: localStorage.getItem("name") || "",
-    email: localStorage.getItem("email") || "",
-    role: localStorage.getItem("role") || "",
-    isLoggedIn: localStorage.getItem("isLoggedIn") || false,
-  },
+  initialState,
 
   reducers: {
     addUser: (state, action) => {
@@ -21,12 +24,26 @@ const authSlice = createSlice({
         action.payload.name,
         action.payload.email,
         action.payload.role,
+        false,
+      );
+      state.name = action.payload.name;
+      state.email = action.payload.email;
+      state.role = action.payload.role;
+      state.isLoggedIn = false;
+    },
+    addUserWithToken: (state, action) => {
+      setUserToLocalStorage(
+        action.payload.name,
+        action.payload.email,
+        action.payload.role,
         true,
+        action.payload.token,
       );
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.role = action.payload.role;
       state.isLoggedIn = true;
+      state.token = action.payload.token;
     },
     removeUser: (state) => {
       state.name = "";
@@ -39,4 +56,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { addUser, removeUser } = authSlice.actions;
+export const { addUser, removeUser, addUserWithToken } = authSlice.actions;
