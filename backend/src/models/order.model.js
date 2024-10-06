@@ -26,10 +26,14 @@ const orderSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
-    delivered: {
-      type: Boolean,
+    orderStatus: {
+      type: String,
       required: true,
-      default: false,
+      enum: ["Processing", "Out for delivery", "Delivered", "Cancelled"],
+      default: "Processing",
+    },
+    deliveryDate: {
+      type: Date,
     },
   },
   { timestamps: true },
