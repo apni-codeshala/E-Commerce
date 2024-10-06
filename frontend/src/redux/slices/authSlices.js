@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   setUserToLocalStorage,
   removeUserFromLocalStorage,
+  updateEmailAndRole,
 } from "../../helpers/setUserLocalStorage";
 
 const initialState = {
@@ -31,6 +32,12 @@ const authSlice = createSlice({
       state.role = action.payload.role;
       state.isLoggedIn = false;
     },
+    setEmailAndRole: (state, action) => {
+      console.log("In slice ", action);
+      updateEmailAndRole(action.payload.email, action.payload.role);
+      state.email = action.payload.email;
+      state.role = action.payload.role;
+    },
     addUserWithToken: (state, action) => {
       setUserToLocalStorage(
         action.payload.name,
@@ -56,4 +63,5 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { addUser, removeUser, addUserWithToken } = authSlice.actions;
+export const { addUser, removeUser, addUserWithToken, setEmailAndRole } =
+  authSlice.actions;

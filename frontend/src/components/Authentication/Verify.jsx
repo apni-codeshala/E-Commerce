@@ -1,18 +1,27 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import axiosInstance from "../../config/axiosInstance";
+import { setEmailAndRole } from "../../redux/slices/authSlices";
 
 const Verify = () => {
   const navigate = useNavigate();
-  const { token, email } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+  const { token } = useSelector((store) => store.auth);
+
+  const updateEmailAndRole = (email, role) => {
+    dispatch(setEmailAndRole({ email, role }));
+  };
 
   async function verify() {
     if (token) {
       axiosInstance.defaults.headers.common["x-access-token"] = token;
       const response = await axiosInstance.get("isverified");
       console.log(response);
+      console.log(response.data.data.email, response.data.data.role);
+      updateEmailAndRole(response.data.data.email, response.data.data.role);
       if (response.data.success) {
         navigate("/home");
       } else {
@@ -25,7 +34,7 @@ const Verify = () => {
 
   useEffect(() => {
     verify();
-  }, []);
+  });
 
   return (
     <div className="w-full h-[100vh] flex justify-center items-center bg-gray-700">

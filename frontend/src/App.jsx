@@ -22,7 +22,9 @@ function App() {
         path="/otp-verification"
         element={<AuthenticationPage Page={OTPInput} />}
       />
-      <Route element={<RequireAuth allowedRoles={["user"]} />}>
+      <Route
+        element={<RequireAuth allowedRoles={["user", "seller", "admin"]} />}
+      >
         <Route path="/home" element={<Home />} />
       </Route>
       <Route path="/denied" element={<Denied />} />

@@ -15,3 +15,8 @@ export function setUserToLocalStorage(
 export function removeUserFromLocalStorage() {
   localStorage.clear();
 }
+
+export function updateEmailAndRole(email, role) {
+  localStorage.setItem("email", email);
+  localStorage.setItem("role", role);
+}

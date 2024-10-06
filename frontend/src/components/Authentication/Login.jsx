@@ -13,7 +13,6 @@ const Login = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
 

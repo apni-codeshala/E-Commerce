@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken"; // Make sure to import jwt
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -15,7 +15,7 @@ const UserSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: [true, "Email already exist"],
+      unique: [true, "Email already exists"],
     },
     password: {
       type: String,
@@ -23,13 +23,18 @@ const UserSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      require: true,
+      required: true,
       enum: ["admin", "seller", "user"],
       default: "user",
     },
     otp: {
       type: String,
-      length: 6,
+      validate: {
+        validator: function (v) {
+          return v.length === 6;
+        },
+        message: "OTP must be 6 characters long",
+      },
       default: "171019",
     },
     isVerified: {
@@ -45,7 +50,6 @@ const UserSchema = mongoose.Schema(
 );
 
 UserSchema.pre("save", function (next) {
-  // Encrypt user password
   if (this.isModified("password")) {
     const SALT = bcrypt.genSaltSync(9);
     this.password = bcrypt.hashSync(this.password, SALT);
@@ -59,8 +63,6 @@ UserSchema.methods.comparePassword = function compare(password) {
 
 UserSchema.methods.genOTP = function generateNewOTP() {
   const user = this;
-
-  // Generate a 6-digit OTP
   const digits = "0123456789";
   let OTP = "";
   for (let i = 0; i < 6; i++) {
@@ -68,7 +70,6 @@ UserSchema.methods.genOTP = function generateNewOTP() {
   }
   user.otp = OTP;
 
-  // OTP valid till
   const now = new Date();
   user.otpValidTill = new Date(now.getTime() + 10 * 60000);
 
