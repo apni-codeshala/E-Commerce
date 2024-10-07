@@ -4,32 +4,31 @@ const sellerService = new SellerService();
 
 export const becomeSeller = async (req, res) => {
   try {
-    console.log("Request come in controller layer", req.body);
+    const cleanedCity = req.body["city "]?.trim() || req.body.city?.trim();
+
     const data = {
-      name: request.body.name,
-      uesr_id: req.user,
-      addressLine1: req.body.addressLine1,
-      addressLine2: req.body.addressLine2,
-      state: req.body.state,
-      city: req.body.city,
-      contactNo: req.body.number,
-      aadharNumber: request.body.aadharNumber,
-      panNumber: req.body.panNumber,
+      name: req.body.name.trim(),
+      user_id: req.user,
+      addressLine1: req.body.addressLine1.trim(),
+      addressLine2: req.body.addressLine2.trim(),
+      state: req.body.state.trim(),
+      city: cleanedCity,
+      contactNo: req.body.contactNo.trim(),
+      aadharNumber: req.body.aadharNumber.trim(),
+      panNumber: req.body.panNumber.trim(),
     };
-    console.log(data);
+
     const response = await sellerService.requestToBecomeSeller(data);
-    console.log("After becomming a selller");
     return res.status(200).json({
       success: true,
-      message: "Request send to admin",
+      message: "Request sent to admin",
       data: response,
       err: {},
     });
   } catch (error) {
-    console.log("Error in controller layer in becomingaseller");
     return res.status(500).json({
       success: false,
-      message: "Not able to request to admin, try again",
+      message: "Unable to send request to admin, try again",
       data: {},
       err: error,
     });
