@@ -16,6 +16,9 @@ import {
 import {
   becomeSeller,
   veriySeller,
+  getAllApprovedSellers,
+  getAllUnapprovedSellers,
+  getSellerInfo,
 } from "../../controllers/seller.controller.js";
 
 const router = express.Router();
@@ -41,8 +44,12 @@ router.get("/isverified", isAuthenticated, isVerified);
 router.use(isAuthenticated);
 router.post("/become-seller", becomeSeller);
 router.patch("/veify-seller", isAdmin, veriySeller);
+router.get("/get-all-approved-sellers", isAdmin, getAllApprovedSellers);
+router.get("/get-all-unapproved-sellers", isAdmin, getAllUnapprovedSellers);
 // router.patch("/update-seller-info", isSeller, updateSellerInfo);
-// router.get("/seller-info", getSellerInfo);
+// 1. here request seller id and updating document seller id should remain same than only do the update, no other people do the update of others
+// 2. seller would not able to update his role
+router.get("/seller-info", getSellerInfo);
 
 // // products routes
 // router.post("/addProduct", isSeller, addProduct);

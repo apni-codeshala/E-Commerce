@@ -75,6 +75,19 @@ class SellerService {
       throw new Error(error);
     }
   }
+
+  async getSellerInfo(id) {
+    try {
+      const sellers = this.sellerRepository.getById(id);
+      return sellers;
+    } catch (error) {
+      console.log(
+        "Semething went wrong in service layer in getting the seller info",
+        error,
+      );
+      throw new Error(error);
+    }
+  }
 }
 
 export default SellerService;

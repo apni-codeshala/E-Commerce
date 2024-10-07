@@ -41,7 +41,7 @@ export const veriySeller = async (req, res) => {
     const response = await sellerService.adminApprovingTheSeller(sellerId);
     return res.status(200).json({
       success: true,
-      message: "Request send to admin",
+      message: "Seller is successfully verified",
       data: response,
       err: {},
     });
@@ -50,6 +50,66 @@ export const veriySeller = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Not able to approve the request, try again",
+      data: {},
+      err: error,
+    });
+  }
+};
+
+export const getAllApprovedSellers = async (req, res) => {
+  try {
+    const response = await sellerService.getAllTheApprovedSeller();
+    return res.status(200).json({
+      success: true,
+      message: "Succcessfully get all the approved sellers",
+      data: response,
+      err: {},
+    });
+  } catch (error) {
+    console.log("Error in controller layer in getting approved seller");
+    return res.status(500).json({
+      success: false,
+      message: "Not able to get apprved sellers",
+      data: {},
+      err: error,
+    });
+  }
+};
+
+export const getAllUnapprovedSellers = async (req, res) => {
+  try {
+    const response = await sellerService.sendUnverifiedSellerListToAdmin();
+    return res.status(200).json({
+      success: true,
+      message: "Succcessfully get all the unapproved sellers",
+      data: response,
+      err: {},
+    });
+  } catch (error) {
+    console.log("Error in controller layer in getting unapproved seller");
+    return res.status(500).json({
+      success: false,
+      message: "Not able to get unapproved sellers",
+      data: {},
+      err: error,
+    });
+  }
+};
+
+export const getSellerInfo = async (req, res) => {
+  try {
+    const response = await sellerService.getSellerInfo(req.query.id);
+    return res.status(200).json({
+      success: true,
+      message: "Succcessfully get user info",
+      data: response,
+      err: {},
+    });
+  } catch (error) {
+    console.log("Error in controller layer in getting unapproved seller");
+    return res.status(500).json({
+      success: false,
+      message: "Not able to get user info",
       data: {},
       err: error,
     });
