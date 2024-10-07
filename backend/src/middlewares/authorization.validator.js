@@ -1,21 +1,29 @@
-const isAdmin = (req) => {
+export const isAdmin = (req, res, next) => {
   if (req.role == "admin") {
-    return true;
+    next();
   } else {
-    return false;
+    return res.json({
+      message: "Unauthorized Access",
+      success: true,
+      code: 401,
+    });
   }
 };
 
-const isSeller = (req) => {
+export const isSeller = (req, res, next) => {
   if (req.role == "seller") {
-    return true;
+    next();
   } else {
-    return false;
+    return res.json({
+      message: "Unauthorized Access",
+      success: true,
+      code: 401,
+    });
   }
 };
 
 // Always use this middlewares after authentication the user
-const canAddProduct = (req, res, next) => {
+export const canAddProduct = (req, res, next) => {
   const isUserAdmin = isAdmin(req);
   const isUserSeller = isSeller(req);
   if (isUserAdmin || isUserSeller) {
@@ -28,5 +36,3 @@ const canAddProduct = (req, res, next) => {
     });
   }
 };
-
-export default canAddProduct;
