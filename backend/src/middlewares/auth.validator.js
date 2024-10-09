@@ -41,6 +41,7 @@ const isAuthenticated = async (req, res, next) => {
     req.user = user.id;
     req.role = user.role;
     req.email = user.email;
+    req.name = user.name;
 
     next();
   } catch (err) {

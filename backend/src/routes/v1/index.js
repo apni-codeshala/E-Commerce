@@ -20,6 +20,12 @@ import {
   getAllUnapprovedSellers,
   getSellerInfo,
 } from "../../controllers/seller.controller.js";
+import {
+  createReview,
+  getProductReviews,
+  updateReview,
+  deleteReview,
+} from "../../controllers/review.controller.js";
 
 const router = express.Router();
 
@@ -60,11 +66,11 @@ router.get("/seller-info", getSellerInfo);
 // router.get("product", getProduct); // pass id of product in query param, this is for full one product detail
 // router.get("/searchProduct", getSearcedProduct); // pass search query in query params
 
-// // review routes
-// router.post("/post-review", postReview);
-// router.get("/product-review", getProductReview); // pass product_id to get particular product review
-// router.patch("/update-review", updateReview);
-// router.delete("/delete-review", deleteReview);
+// review routes
+router.post("/post-review", createReview);
+router.get("/product-reviews", getProductReviews); // pass product_id to get particular product review
+router.patch("/update-review", updateReview);
+router.delete("/delete-review", deleteReview);
 
 // // category routes
 // router.post("/add-category", isAdmin, addCategory);

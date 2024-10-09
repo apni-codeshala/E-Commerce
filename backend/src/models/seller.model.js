@@ -29,7 +29,10 @@ const sellerSchema = new mongoose.Schema(
     },
     contactNo: {
       type: Number,
-      required: true,
+      required: [
+        true,
+        "Contact number already used by some other seller account",
+      ],
       validate: {
         validator: function (v) {
           return v.toString().length === 10;
@@ -40,6 +43,7 @@ const sellerSchema = new mongoose.Schema(
     aadharNumber: {
       type: Number,
       required: true,
+      unique: [true, "Aadhar number already used by some other seller account"],
       validate: {
         validator: function (v) {
           return v.toString().length === 12;
@@ -50,6 +54,7 @@ const sellerSchema = new mongoose.Schema(
     panNumber: {
       type: String,
       required: true,
+      unique: [true, "Pan number already used by some other seller account"],
       validate: {
         validator: function (v) {
           const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;

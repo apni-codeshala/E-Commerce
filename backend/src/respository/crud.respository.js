@@ -13,7 +13,7 @@ class CrudRepository {
     }
   }
 
-  async destroy(data) {
+  async destroy(id) {
     try {
       const response = await this.model.findByIdAndDelete(id);
       return response;
