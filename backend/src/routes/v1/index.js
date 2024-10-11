@@ -26,6 +26,11 @@ import {
   updateReview,
   deleteReview,
 } from "../../controllers/review.controller.js";
+// import { addProduct } from "../../controllers/product.controller.js";
+import {
+  createCategory,
+  deleteCategory,
+} from "../../controllers/category.contoller.js";
 
 const router = express.Router();
 
@@ -57,7 +62,7 @@ router.get("/get-all-unapproved-sellers", isAdmin, getAllUnapprovedSellers);
 // 2. seller would not able to update his role
 router.get("/seller-info", getSellerInfo);
 
-// // products routes
+// products routes
 // router.post("/addProduct", isSeller, addProduct);
 // router.patch("/update-product", isSeller, updateProduct);
 // router.delete("/delete-product", idAdminOrSeller, deleteProduct);
@@ -72,11 +77,11 @@ router.get("/product-reviews", getProductReviews); // pass product_id to get par
 router.patch("/update-review", updateReview);
 router.delete("/delete-review", deleteReview);
 
-// // category routes
-// router.post("/add-category", isAdmin, addCategory);
+// category routes
+router.post("/add-category", isAdmin, createCategory);
 // router.get("/get-category-info", getCategoryInfo);
 // router.patch("/update-category", isAdmin, updateCategory);
-// router.delete("/delete-category", isAdmin, deleteCategory);
+router.delete("/delete-category", isAdmin, deleteCategory);
 
 // // cart routes
 // router.post("/add-product-to-cart", addProductToCart);

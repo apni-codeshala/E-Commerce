@@ -9,7 +9,7 @@ class CrudRepository {
       return response;
     } catch (error) {
       console.log("Something went wrong in crud repo in creation");
-      throw error.message;
+      throw new Error(error);
     }
   }
 
@@ -19,7 +19,7 @@ class CrudRepository {
       return response;
     } catch (error) {
       console.log("Something went wrong in crud repo in deletion using id");
-      throw error;
+      throw new Error(error);
     }
   }
 
@@ -29,7 +29,7 @@ class CrudRepository {
       return response;
     } catch (error) {
       console.log("Something went wrong in crud repo in getting using id");
-      throw error;
+      throw new Error(error);
     }
   }
 
