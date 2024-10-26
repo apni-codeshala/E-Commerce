@@ -24,9 +24,7 @@ export const isSeller = (req, res, next) => {
 
 // Always use this middlewares after authentication the user
 export const canAddProduct = (req, res, next) => {
-  const isUserAdmin = isAdmin(req);
-  const isUserSeller = isSeller(req);
-  if (isUserAdmin || isUserSeller) {
+  if (req.role == "seller" || req.role == "admin") {
     next();
   } else {
     return res.json({

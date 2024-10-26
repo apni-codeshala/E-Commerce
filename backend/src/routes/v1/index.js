@@ -29,7 +29,10 @@ import {
 // import { addProduct } from "../../controllers/product.controller.js";
 import {
   createCategory,
+  getCategoryInfo,
   deleteCategory,
+  addCategoryProperties,
+  deleteCategoryProperties,
 } from "../../controllers/category.contoller.js";
 
 const router = express.Router();
@@ -79,9 +82,10 @@ router.delete("/delete-review", deleteReview);
 
 // category routes
 router.post("/add-category", isAdmin, createCategory);
-// router.get("/get-category-info", getCategoryInfo);
-// router.patch("/update-category", isAdmin, updateCategory);
+router.get("/get-category-info", canAddProduct, getCategoryInfo);
 router.delete("/delete-category", isAdmin, deleteCategory);
+router.patch("/add-category-properties", isAdmin, addCategoryProperties);
+router.patch("/delete-category-property", isAdmin, deleteCategoryProperties);
 
 // // cart routes
 // router.post("/add-product-to-cart", addProductToCart);
