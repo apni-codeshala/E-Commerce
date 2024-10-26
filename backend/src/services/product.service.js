@@ -5,7 +5,7 @@ class ProductService {
     this.productRepository = new ProductRepository();
   }
 
-  async create(data) {
+  async createProduct(data) {
     try {
       const response = await this.productRepository.create(data);
       return response;

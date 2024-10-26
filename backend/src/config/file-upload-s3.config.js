@@ -35,4 +35,4 @@ const mutipleUploader = () =>
     { name: "thumbnail", maxCount: 1 }, // 1 thumbnail image
   ]);
 
-export default { mutipleUploader };
+export default mutipleUploader;

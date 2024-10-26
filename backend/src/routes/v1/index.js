@@ -26,7 +26,7 @@ import {
   updateReview,
   deleteReview,
 } from "../../controllers/review.controller.js";
-// import { addProduct } from "../../controllers/product.controller.js";
+import { addProduct } from "../../controllers/product.controller.js";
 import {
   createCategory,
   getCategoryInfo,
@@ -66,7 +66,7 @@ router.get("/get-all-unapproved-sellers", isAdmin, getAllUnapprovedSellers);
 router.get("/seller-info", getSellerInfo);
 
 // products routes
-// router.post("/addProduct", isSeller, addProduct);
+router.post("/addProduct", isSeller, addProduct);
 // router.patch("/update-product", isSeller, updateProduct);
 // router.delete("/delete-product", idAdminOrSeller, deleteProduct);
 // router.get("/get-products", getProducts);

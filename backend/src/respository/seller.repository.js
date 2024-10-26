@@ -39,6 +39,18 @@ class SellerRepository extends CrudRepository {
       throw error;
     }
   }
+
+  async getByUserId(userId) {
+    try {
+      const sellers = await Seller.findOne({
+        user_id: userId,
+      });
+      return sellers;
+    } catch (error) {
+      console.log("Something went wrong in getting the unverified sellers");
+      throw error;
+    }
+  }
 }
 
 export default SellerRepository;

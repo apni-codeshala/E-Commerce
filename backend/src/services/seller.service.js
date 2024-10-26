@@ -88,6 +88,18 @@ class SellerService {
       throw new Error(error);
     }
   }
+  async getSellerId(userId) {
+    try {
+      const seller = await this.sellerRepository.getByUserId(userId);
+      return seller.id;
+    } catch (error) {
+      console.log(
+        "Something went wrong in service layer in getting the seller id",
+        error,
+      );
+      throw new Error(error);
+    }
+  }
 }
 
 export default SellerService;

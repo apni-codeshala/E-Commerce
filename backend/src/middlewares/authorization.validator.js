@@ -1,3 +1,6 @@
+import SellerService from "../services/seller.service.js";
+const sellerSrvice = new SellerService();
+
 export const isAdmin = (req, res, next) => {
   if (req.role == "admin") {
     next();
@@ -10,8 +13,10 @@ export const isAdmin = (req, res, next) => {
   }
 };
 
-export const isSeller = (req, res, next) => {
+export const isSeller = async (req, res, next) => {
   if (req.role == "seller") {
+    const result = await sellerSrvice.getSellerId(req.user);
+    req.sellerId = result;
     next();
   } else {
     return res.json({
